@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>The List Maker</title>
+  <!-- Will create a list of up to 10 items, each item up to 50 characters. -->
+</head>
+<body>
+<!-- get text input and create buttons for Add and Clear -->
+<p>What text would you like to add to the list?</p>
+<input id="new-text"></input>
+<button id="add-text">Add</button>
+<!-- empty unordered list -->
+<ul id="the-list"></ul>
+<button id="clear-text">Clear</button>
+
+<script>
+  // variables: count to track list length; ListMax set to 10 items max in the list
+  // variables for new text string, add and clear buttons, and the unordered list.
+  let count=0
+  let ListMax=10
+  let textInput=document.querySelector('#new-text')
+  let addButton=document.querySelector('#add-text')
+  let textList=document.querySelector('#the-list')
+  let clearButton=document.querySelector('#clear-text')
+
+  // this listener and function lets the Enter key add the text to list, instead of clicking button
+  document.addEventListener('keyup', function() {
+    if (event.keyCode == 13 || event.key == 'Enter') {
+      addButton.click()
+    }
+  }) // (WebStorm doesn't like the event. statement)
+
+  // when Add button is clicked, get the text and check the length
+  addButton.addEventListener('click', function () {
+    let newText=textInput.value
+    // reads the text
+    // console.log(newText)
+    if (newText.length==0) {
+      return
+      // no action if nothing was entered
+    }
+    if (newText.length>50) {
+      alert('Please enter no more than 50 characters.')
+      return
+      // don't enter list items greater than 50 chars, leave the box full for editing
+    }
+
+    let newListItem=document.createElement('li')
+    // creates a new list item
+    newListItem.innerHTML=newText
+    // identify list item text as what was entered
+
+    if (count<ListMax) {
+      textList.appendChild(newListItem)
+      count++
+      // adds the new list item as a child of the list
+      textInput.value = ''
+      // clear the value from the input box
+    } else {
+      alert('The list is full.  Click Clear to begin a new list.')
+      // when we get to the else statement, we've reached ListMax items in the list
+    }
+
+  })
+  clearButton.addEventListener('click', function() {
+    //when button is clicked, clear the list and clear the box
+    textList.innerHTML=""
+    textInput.value = ''
+    count=0
+    // reset the count so a new list can be entered
+  })
+</script>
+</body>
+</html>
